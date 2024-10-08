@@ -1,13 +1,12 @@
 const { CustomError } = require('./CustomError');
 
-function errorMiddleware(err, req, res, next) {
+function errorMiddleware(err, req, res) {
     if (err instanceof CustomError) {
         return res.status(err.statusCode).json({
             success: false,
             message: err.message
         });
     }
-
 
     console.error("Unexpected error: ", err);
     return res.status(500).json({
