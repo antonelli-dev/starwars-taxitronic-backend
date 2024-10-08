@@ -1,5 +1,5 @@
-const FilmRepository = require('../../infrastructure/api/FilmRepository');
-const StarWarsApi = require('../../infrastructure/api/StarWarsApi');
+const FilmRepository = require('../../interface/repositories/FilmRepository');
+const StarWarsApi = require('../../infrastructure/external/StarWarsApi');
 const Film = require('../../domain/entities/Film');
 const Character = require('../../domain/entities/Character');
 const { ExternalApiError } = require('../../utils/CustomError');

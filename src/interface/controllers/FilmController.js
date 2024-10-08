@@ -26,6 +26,7 @@ class FilmController {
             if (!filmId) {
                 throw new BadRequestError("Film ID is required");
             }
+
             const characters = await this.getCharactersByFilmUseCase.execute(filmId);
             if (!characters.length) {
                 throw new NotFoundError(`No characters found for film ID ${filmId}`);

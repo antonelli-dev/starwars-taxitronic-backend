@@ -1,6 +1,6 @@
 const express = require("express");
 const FilmController = require("./interface/controllers/FilmController");
-const FilmRepository = require("./infrastructure/api/FilmRepository");
+const FilmRepository = require("./interface/repositories/FilmRepository");
 const errorMiddleware = require("./utils/ErrorMidleware");
 
 const app = express();

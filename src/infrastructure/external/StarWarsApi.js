@@ -3,23 +3,29 @@ const Film = require('../../domain/entities/Film');
 const Character = require('../../domain/entities/Character');
 
 class StarWarsApi {
+
+    BaseURL = "https://swapi.dev/api/";
+
     async getAllFilms() {
         const filmsData = await fetchData('https://swapi.dev/api/films/', 'Error fetching films');
         return filmsData.results.map(film => new Film(film.episode_id, film.title));
     }
 
     async getCharacter(characterUrl) {
-        return await fetchData(characterUrl, 'Error fetching character');
+        console.log(characterUrl)
+        return fetchData(characterUrl, 'Error fetching character');
     }
 
     async getSpecies(speciesUrl) {
-        if (!speciesUrl) return 'Unknown species';
+        if(!speciesUrl ) return "Undefined";
         const species = await fetchData(speciesUrl, 'Error fetching species');
+        console.log("Valor", speciesUrl)
+        console.log("get pecies",species)
+
         return species.name;
     }
 
     async getHomeWorld(homeWorldURL) {
-        if (!homeWorldURL) return 'Unknown world';
         const homeWorld = await fetchData(homeWorldURL, 'Error fetching home world');
         return homeWorld.name;
     }

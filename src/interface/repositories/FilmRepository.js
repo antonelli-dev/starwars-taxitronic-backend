@@ -1,8 +1,8 @@
-const IFilmRepository = require('../../repositories/IFilmRepository');
-const StarWarsApi = require('./StarWarsApi');
+const IFilmRepository = require('./IFilmRepository');
+const StarWarsApi = require('../../infrastructure/external/StarWarsApi');
 const Film = require('../../domain/entities/Film');
 const Character = require('../../domain/entities/Character');
-const ExternalApiError = require('../../utils/CustomError').ExternalApiError;
+const ExternalApiError = require('../../utils/CustomError');
 
 class FilmRepository extends IFilmRepository {
     constructor(starWarsApi = new StarWarsApi()) {
