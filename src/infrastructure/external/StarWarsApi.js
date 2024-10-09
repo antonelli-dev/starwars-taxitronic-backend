@@ -4,7 +4,10 @@ const Character = require('../../domain/entities/Character');
 
 class StarWarsApi {
 
-    BaseURL = "https://swapi.dev/api/";
+    constructor(BaseURL = "https://swapi.dev/api/") {
+        this.BaseURL = BaseURL;
+    }
+
 
     async getAllFilms() {
         const filmsData = await fetchData('https://swapi.dev/api/films/', 'Error fetching films');
@@ -17,10 +20,8 @@ class StarWarsApi {
     }
 
     async getSpecies(speciesUrl) {
-        if(!speciesUrl ) return "Undefined";
+        if (!speciesUrl) return "Undefined";
         const species = await fetchData(speciesUrl, 'Error fetching species');
-        console.log("Valor", speciesUrl)
-        console.log("get pecies",species)
 
         return species.name;
     }
@@ -31,19 +32,28 @@ class StarWarsApi {
     }
 
     async getCharactersByFilm(filmId) {
-        const response = await fetchData(`https://swapi.dev/api/films/${filmId}`, 'Error fetching film');
-        const characterUrls = response.characters;
+        try {
+            const response = await fetchData(`${this.BaseURL}films/${filmId}`, 'Error fetching film');
+            const characterUrls = response.characters;
 
-        const characters = await Promise.all(
-            characterUrls.map(async (characterUrl) => {
-                const character = await this.getCharacter(characterUrl);
-                const speciesName = await this.getSpecies(character.species[0])
-                const homeWorld = await this.getHomeWorld(character.homeworld);
-                return new Character(character.name, character.gender, homeWorld, speciesName); 
-            })
-        );
+            const characters = await Promise.all(
+                characterUrls.map(async (characterUrl) => {
+                    const character = await this.getCharacter(characterUrl);
 
-        return characters;
+                    const [speciesName, homeWorld] = await Promise.all([
+                        this.getSpecies(character.species[0]),
+                        this.getHomeWorld(character.homeworld)
+                    ]);
+
+                    return new Character(character.name, character.gender, homeWorld, speciesName);
+                })
+            );
+
+            return characters;
+        } catch (error) {
+            console.error("Failed to fetch characters by film: ", error);
+            throw error;
+        }
     }
 }
 
