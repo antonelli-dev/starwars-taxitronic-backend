@@ -12,8 +12,9 @@ const filmController = new FilmController(filmRepository);
 
 app.use(cors());
 
-app.get("/starwars/v1/films", (req, res) => filmController.getFilms(req, res));
-app.get('/starwars/v1/films/:filmId/characters', (req, res) => filmController.getCharactersByFilm(req, res));
+app.get("/starwars/v1/films", (req, res, next) => filmController.getFilms(req, res, next));
+app.get('/starwars/v1/films/:filmId/characters', (req, res, next) => filmController.getCharactersByFilm(req, res, next));
+
 
 
 app.use(errorMiddleware);
