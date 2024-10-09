@@ -8,7 +8,6 @@ class StarWarsApi {
         this.BaseURL = BaseURL;
     }
 
-
     async getAllFilms() {
         const filmsData = await fetchData('https://swapi.dev/api/films/', 'Error fetching films');
         return filmsData.results.map(film => new Film(film.episode_id, film.title));
